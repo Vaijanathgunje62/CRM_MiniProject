@@ -1,0 +1,46 @@
+{% extends base_template %}
+{% block title %}Simple CRM | Delete Client{%endblock%}
+{% block breadcrumbs %}
+    <li hx-get="{% url 'crm:index' %}" hx-target="#content" hx-push-url="true" class="breadcrumb-item">Dashboard</li>
+    <li hx-get="{% url 'crm:detail-client' object.id %}" hx-target="#content" hx-push-url="true" class="breadcrumb-item">Client #{{ client.id }}</li>
+    <li class="breadcrumb-item active">Delete Client</li>
+{% endblock %}
+{% block content %}
+    <section class="w-75 mx-auto">
+        <div style="margin-top:20px"  class="row">
+            <div class="col">
+                <h2>Delete Client</h2>
+            </div>
+        </div>
+        <div style="margin-top:30px" class="row">
+            <div class="col">
+                <p>
+                    Are you sure you want to remove <b>{{ object }}</b> from the client
+                    list?
+                </p>
+            </div>
+        </div>
+        <div  style="margin-top:10px"  class="row">
+            <div style="text-align:left!important" class="col text-end">
+                <a 
+                    class="btn btn-success"
+                    hx-get="{% url 'crm:detail-client' object.id %}"
+                    hx-target="#content"
+                    hx-push-url="true"
+                    role="button"
+                >
+                    Cancel
+                </a>
+                <a style="margin-left:20px"
+                    class="btn btn-danger"
+                    hx-post="{% url 'crm:delete-client' object.id %}"
+                    hx-target="#content"
+                    hx-push-url="true"
+                    role="button"
+                >
+                    Delete
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

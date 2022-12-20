@@ -1,0 +1,84 @@
+{% extends base_template %}
+{% block title %}Simple CRM | Home Page{%endblock%}
+{% block content %}
+  
+    <section class="w-70 mx-auto">
+        <div class="row">
+            <div class="col">
+                <h2>Home Page</h2>
+            </div>
+            <div style="margin-left:-20px" class="col-3">
+                <input
+                    id="search"
+                    class="form-control"
+                    type="search"
+                    name="search"
+                    placeholder="search client"
+                    hx-get="{% url 'crm:search' %}"
+                    hx-trigger="keyup changed delay:500ms, search"
+                    hx-target="#content"
+                    hx-push-url="true"
+                />
+            </div>
+            <div class="col text-center">
+                <a
+                    class="btn btn-success"
+                    hx-get="{% url 'crm:create-client' %}"
+                    hx-target="#content"
+                    hx-push-url="true"
+                    hx-trigger="click"
+                  
+                >
+                    Add Client
+                </a>
+            </div>
+        </div>
+        <div class="w-65 mx-auto" style="margin-top:50px" class="row">
+            {% if page_obj %}
+                <table style="border:1px solid black" class="table table-hover">
+                    <thead>
+                        <tr style="background-color:skyblue">
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Mob_No</th>
+                            <th scope="col">E-mail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for client in page_obj %}
+                            <tr
+                                class="hover1"
+                                hx-get="{{ client.get_absolute_url }}"
+                                hx-target="#content"
+                                hx-push-url="true"
+                                hx-trigger="click"
+                            >
+                                <th scope="row">{{client.id }}</th>
+                                <td>{{ client.name }}</td>
+                                <td>{{ client.phone }}</td>
+                                <td>{{ client.email }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %} There are no clients. {% endif %}
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="crm?page=1">&laquo; first</a>
+                    <a href="crm?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a href="crm?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="crm?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </section>
+{% endblock %}

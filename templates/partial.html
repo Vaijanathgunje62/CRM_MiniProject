@@ -1,0 +1,22 @@
+<title hx-swap-oob="innerHTML:title">{% block title %}{% endblock %}</title>
+<div id="breadcrumbs" class="container p-2" aria-label="breadcrumb" hx-swap-oob="true">
+    <ol class="breadcrumb m-0">
+        {% block breadcrumbs %}{% endblock %}
+    </ol>
+</div>
+{% if messages %}
+    <div id="messages" class="container p-2 " role="alert" hx-swap-oob="true">
+        {% for message in messages %}
+            <div class="row alert alert-success alert-dismissible fade show text-center m-0">
+                <div class="col">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div id="messages" class="container p-2 d-none" hx-swap-oob="true"></div>
+{% endif %}
+{% block content %}
+{% endblock %} 

@@ -1,0 +1,52 @@
+{% extends base_template %}
+{% block title %}<h3>Simple CRM | Detail Client</h3>{% endblock %}
+{% block breadcrumbs %}
+    <li style="color:red;font-size:20px" hx-get="{% url 'crm:index' %}" hx-target="#content" hx-push-url="true" >Dashboard</li>
+{% endblock %}
+{% block content %}
+    <!-- Canvas Content -->
+    <section class="w-75 mx-auto">
+        <div class="row">
+            <div class="col">
+                <h2 style="margin-bottom:50px;color:black">{{ object.name|capfirst}} Detail</h2>
+            </div>
+            
+        </div>
+        <div class="row bg-light">
+            <div class="col">
+                <p><b>Name:</b> {{ object.name }}</p>
+            </div>
+            <div style="margin-left:10px"class="col" >
+                <p><b>Phone :</b> {{ object.phone }}</p>
+            </div>
+        </div>
+        <div style="margin-top:10px" class="row bg-light">
+            <div class="col">
+                <p><b>Address:</b> {{ object.address }}</p>
+            </div>
+            <div class="col">
+                <p><b>E-mail:</b> {{ object.email }}</p>
+            </div>
+        </div>
+        <div style="margin-top:20px"class="col-3 text-center">
+            <a  style="margin-left:-106px;margin-right:10px"
+                class="btn btn-success"
+                hx-get="{% url 'crm:update-client' object.id %}"
+                hx-target="#content"
+                hx-push-url="true"
+                role="button"
+            >
+                Update
+            </a>
+            <a
+                class="btn btn-danger"
+                hx-get="{% url 'crm:delete-client' object.pk %}"
+                hx-target="#content"
+                hx-push-url="true"
+                role="button"
+            >
+                Delete
+            </a>
+        </div>
+    </section>
+{% endblock %}

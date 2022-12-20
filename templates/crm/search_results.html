@@ -1,0 +1,76 @@
+{% extends base_template %}
+{% block title %}Simple CRM | Search Results{% endblock %}
+{% block breadcrumbs %}
+    <li hx-get="{% url 'crm:index' %}" hx-target="#content" hx-push-url="true" class="breadcrumb-item">Dashboard</li>
+    <li class="breadcrumb-item active">Search Results</li>
+{% endblock %}
+{% block content %}
+    <section class="w-100 mx-auto">
+        <div class="row">
+            <div class="col">
+                <h2>Results</h2>
+            </div>
+            <div class="col-6">
+                <input
+                    id="search"
+                    class="form-control"
+                    type="search"
+                    name="q"
+                    placeholder="Search Clients..."
+                    hx-get="{% url 'crm:search' %}"
+                    hx-trigger="keyup changed delay:500ms, search"
+                    hx-target="#htmxCanvas"
+                    hx-push-url="true"
+                    hx-preserve="#search"
+                />
+            </div>
+            <div class="col text-center">
+                <p>Showing {{ results.count }} result(s) for "{{ request.GET.search}}"</p>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr style="background-color:skyblue;">
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Mob_No</th>
+                        <th scope="col">E-mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in results %}
+                        <tr
+                            class="hover1"
+                            hx-get="{{ client.get_absolute_url }}"
+                            hx-target="#content"
+                            hx-push-url="true"
+                        >
+                            <th scope="row">{{client.id }}</th>
+                            <td>{{ client.name }}</td>
+                            <td>{{ client.phone }}</td>
+                            <td>{{ client.email }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if results.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ results.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ results.number }} of {{ results.paginator.num_pages }}.
+                </span>
+        
+                {% if results.has_next %}
+                    <a href="?page={{ results.next_page_number }}">next</a>
+                    <a href="?page={{ results.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends base_template %}
+{% block title %}Simple CRM | Update Client{% endblock %}
+{% block breadcrumbs %}
+    <li hx-get="{% url 'crm:index' %}" hx-target="#content" hx-push-url="true" class="breadcrumb-item">Dashboard</li>
+{% endblock %}
+{% block content %}
+    <!-- Canvas Content -->
+    <section class="w-50 mx-auto">
+        <div class="row">
+            <div class="col">
+                <h2>Update Client <span style="color:blue">{{ object.name }}</span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form
+                    hx-post="{% url 'crm:update-client' object.id %}"
+                    hx-target="#content"
+                    hx-push-url="true"
+                >
+                    {{ form }}
+                    <div style="text-align:left!important" class="col text-end m-2">
+                        <a
+                            class="btn btn-danger"
+                            hx-get="{% url 'crm:detail-client' object.id %}"
+                            hx-target="#content"
+                            hx-push-url="true"
+                            role="button"
+                        >
+                            Cancel
+                        </a>
+                        <input style="margin-left:10px" type="submit" class="btn btn-success" value="Save" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
